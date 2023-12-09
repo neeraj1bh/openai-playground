@@ -1,0 +1,12 @@
+.next
+.jest
+coverage
+node_modules
+out
+*.lock
+.npmrc
+*.toml
+*.md
+.husky
+.env*
+.github
