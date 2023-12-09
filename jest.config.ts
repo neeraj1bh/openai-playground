@@ -17,9 +17,9 @@ const config = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '.+\\.(css|styl|less|sass|scss)$': '@/__mocks__/styleMock.js',
+    '.+\\.(css|styl|less|sass|scss)$': '@/app/testing/styleMock.js',
     '.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '@/__mocks__/fileMock.js',
+      '@/app/testing/fileMock.js',
   },
   testEnvironment: 'jest-environment-jsdom',
 };

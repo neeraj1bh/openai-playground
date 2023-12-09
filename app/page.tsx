@@ -1,9 +1,12 @@
-'use client';
-
-import Playground from '@/app/components/containers/Playground';
+import Playground from './containers/Playground';
+import OpenAIProvider from './hooks/useOpenAI';
 
 const Home = () => {
-  return <Playground />;
+  return (
+    <OpenAIProvider>
+      <Playground />
+    </OpenAIProvider>
+  );
 };
 
 export default Home;
