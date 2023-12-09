@@ -9,7 +9,7 @@
     "build:start": "next build && next start",
     "lint": "next lint",
     "lint:fix": "yarn lint --fix",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --collectCoverage",
     "prettier": "prettier .",
