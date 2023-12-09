@@ -25,15 +25,8 @@ export const OpenAIChatModels: Record<string, OpenAIModel> = {
     outputCost: 0.00012,
     maxLimit: 32768,
   },
-
   'gpt-3.5-turbo': {
     id: 'gpt-3.5-turbo',
-    inputCost: 0.0000015,
-    outputCost: 0.000002,
-    maxLimit: 4096,
-  },
-  'gpt-3.5-turbo-0613': {
-    id: 'gpt-3.5-turbo-0613',
     inputCost: 0.0000015,
     outputCost: 0.000002,
     maxLimit: 4096,
@@ -42,12 +35,18 @@ export const OpenAIChatModels: Record<string, OpenAIModel> = {
     id: 'gpt-3.5-turbo-16k',
     inputCost: 0.000003,
     outputCost: 0.000004,
-    maxLimit: 16384,
+    maxLimit: 16385,
   },
-  'gpt-3.5-turbo-16k-0613': {
-    id: 'gpt-3.5-turbo-16k-0613',
-    inputCost: 0.000003,
-    outputCost: 0.000004,
-    maxLimit: 16384,
+  'gpt-3.5-turbo-1106': {
+    id: 'gpt-3.5-turbo-1106',
+    inputCost: 0.000001,
+    outputCost: 0.000002,
+    maxLimit: 16385,
+  },
+  'gpt-4-1106-preview': {
+    id: 'gpt-4-1106-preview	',
+    inputCost: 0.00001,
+    outputCost: 0.00003,
+    maxLimit: 128000,
   },
 };
