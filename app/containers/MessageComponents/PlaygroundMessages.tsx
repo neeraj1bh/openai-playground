@@ -10,7 +10,6 @@ export default function PlaygroundMessages({}: Props) {
   const messageContainer = React.useRef<HTMLDivElement>(null);
   const [prevMessageLength, setPrevMessageLength] = React.useState(0);
   const [scrolling, setScrolling] = React.useState(false);
-  console.log({ messages });
 
   useEffect(() => {
     if (messages.length != prevMessageLength) {
