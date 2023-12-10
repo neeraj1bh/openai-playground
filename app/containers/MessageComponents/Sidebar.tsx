@@ -5,9 +5,7 @@ import { useOpenAI } from '@/app/hooks/useOpenAI';
 import { OpenAIChatModels } from '@/app/utils/constants';
 import { OpenAIConfig } from '@/app/utils/types';
 
-type Props = {};
-
-export default function Sidebar({}: Props) {
+export default function Sidebar() {
   const { config, updateConfig, models, tokenUsage, individualTokenUsage } = useOpenAI();
 
   const handleUpdateConfig = <T extends keyof OpenAIConfig>(
@@ -73,11 +71,11 @@ export default function Sidebar({}: Props) {
           handleUpdateConfig('presence_penalty', value)
         }
       />
-      <div className="w-full ">
-        <p className="text-sm font-normal text-center text-green-700 w-full mx-auto">
-          TOKEN USAGE: ${tokenUsage}
-        </p>
-        <div className="h-40 w-full mt-4">
+      <div className="w-full flex flex-1 items-center">
+        <div className="h-60 w-full">
+          <p className="text-sm font-black mb-5 text-center text-green-500 w-full mx-auto">
+            TOKEN USAGE: ${tokenUsage.toFixed(5)}
+          </p>
           <DoughnutChart
             chartData={individualTokenUsage.map((item) => item.usage)}
             labels={individualTokenUsage.map((item) => item.name)}
