@@ -39,7 +39,7 @@ jobs:
       - name: Install npm dependencies
         run: yarn
 
-      - name: Build applicationx
+      - name: Build application
         run: yarn build
 
       - name: Lint code

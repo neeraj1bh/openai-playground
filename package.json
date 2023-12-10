@@ -17,6 +17,7 @@
     "postinstall": "husky install"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@types/node": "20.4.3",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
