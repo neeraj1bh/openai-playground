@@ -1,3 +1,4 @@
+import { DoughnutChart } from '@/app/components/input/Doughnut';
 import Dropdown from '@/app/components/input/DropDown';
 import Slider from '@/app/components/input/Slider';
 import { useOpenAI } from '@/app/hooks/useOpenAI';
@@ -7,7 +8,7 @@ import { OpenAIConfig } from '@/app/utils/types';
 type Props = {};
 
 export default function Sidebar({}: Props) {
-  const { config, updateConfig, models, tokenUsage } = useOpenAI();
+  const { config, updateConfig, models, tokenUsage, individualTokenUsage } = useOpenAI();
 
   const handleUpdateConfig = <T extends keyof OpenAIConfig>(
     id: T,
@@ -76,6 +77,12 @@ export default function Sidebar({}: Props) {
         <p className="text-sm font-normal text-center text-green-700 w-full mx-auto">
           TOKEN USAGE: ${tokenUsage}
         </p>
+        <div className="h-40 w-full mt-4">
+          <DoughnutChart
+            chartData={individualTokenUsage.map((item) => item.usage)}
+            labels={individualTokenUsage.map((item) => item.name)}
+          />
+        </div>
       </div>
     </div>
   );
