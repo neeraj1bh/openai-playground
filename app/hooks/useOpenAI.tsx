@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useAuth } from './useAuth';
 import useAsyncEffect from 'use-async-effect';
 import { OpenAIConfig, OpenAIModel, TokenUsage } from '../utils/types';
 import { OpenAIChatModels } from '../utils/constants';
@@ -71,8 +72,7 @@ const OpenAIContext = createContext<{
 }>(defaultContext);
 
 export default function OpenAIProvider({ children }: PropsWithChildren) {
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY || '';
-
+  const { token } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const [systemMessage, setSystemMessage] = useState<SystemMessage>(defaultContext.systemMessage);
@@ -87,19 +87,19 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': token,
       },
     });
   };
 
   useAsyncEffect(async () => {
-    if (!apiKey) {
+    if (!token) {
       return setModels(Object.values(OpenAIChatModels));
     }
 
     const data = await (await fetchModels()).json();
     setModels(data.chatModels || []);
-  }, [apiKey]);
+  }, [token]);
 
   const reconcile = () => {
     if (localStorage.individualTokenUsage) {
@@ -220,7 +220,7 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': apiKey,
+          'x-api-key': token,
         },
         body: JSON.stringify({
           ...config,
@@ -252,10 +252,12 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
       });
 
       updateTokenUsage(currentConfig.model, resp.data.usage);
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.log(error.message);
+    }
 
     setLoading(false);
-  }, [loading, config, apiKey, systemMessage, messages, updateTokenUsage]);
+  }, [loading, config, token, systemMessage, messages, updateTokenUsage]);
 
   const addMessage = useCallback((content: string = '', role: 'user' | 'assistant' = 'user') => {
     setMessages((prev) => {
