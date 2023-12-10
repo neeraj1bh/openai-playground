@@ -41,7 +41,6 @@ export const AddTokenModal = ({
           </div>
           <div className="flex flex-col">
             <span className="text-md font-medium mt-20 mb-4 ">Add API Token :</span>
-            {/* <span className='text-gray-600 text-xs'>{token}</span> */}
             <Input
               placeholder="Enter your key"
               value={input}
