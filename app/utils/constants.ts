@@ -44,7 +44,7 @@ export const OpenAIChatModels: Record<string, OpenAIModel> = {
     maxLimit: 16385,
   },
   'gpt-4-1106-preview': {
-    id: 'gpt-4-1106-preview	',
+    id: 'gpt-4-1106-preview',
     inputCost: 0.00001,
     outputCost: 0.00003,
     maxLimit: 128000,

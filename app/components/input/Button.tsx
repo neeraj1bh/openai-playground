@@ -12,7 +12,7 @@ const Button = ({
   return (
     <>
       <button
-        className={`relative hover:cursor-pointer inline-flex items-center justify-center transition ease-linear border-2 focus:outline-none focus:ring-2 focus:ring-blue-200 body-base-medium py-2 px-3 rounded-lg ${className}`}
+        className={`relative hover:cursor-pointer inline-flex items-center justify-center transition ease-linear border-2 focus:outline-none focus:ring-2 focus:ring-blue-200 body-medium py-2 px-3 rounded-lg ${className}`}
         onClick={onClick}
       >
         {children}
