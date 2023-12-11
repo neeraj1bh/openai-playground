@@ -9,8 +9,9 @@ import {
 } from 'react';
 import { useAuth } from './useAuth';
 import useAsyncEffect from 'use-async-effect';
-import { OpenAIConfig, OpenAIModel, TokenUsage } from '../utils/types';
+import { IPreset, OpenAIConfig, OpenAIModel, TokenUsage } from '../utils/types';
 import { OpenAIChatModels } from '../utils/constants';
+import { toast } from 'react-hot-toast';
 
 export const defaultConfig = {
   model: 'gpt-3.5-turbo',
@@ -52,6 +53,10 @@ const defaultContext = {
   error: '',
   tokenUsage: 0.0,
   individualTokenUsage: [],
+  presets: [],
+  savePreset: (name: string, description?: string) => {},
+  applyPreset: (preset: IPreset) => {},
+  exportMessages: () => {},
 };
 
 const OpenAIContext = createContext<{
@@ -66,9 +71,13 @@ const OpenAIContext = createContext<{
   updateMessageContent: (id: number, content: string) => void;
   updateConfig: (newConfig: Partial<OpenAIConfig>) => void;
   submit: () => void;
+  savePreset: (name: string, description?: string) => void;
+  applyPreset: (name: IPreset) => void;
   loading: boolean;
   tokenUsage: number;
   individualTokenUsage: TokenUsage[];
+  presets: IPreset[];
+  exportMessages: () => void;
 }>(defaultContext);
 
 export default function OpenAIProvider({ children }: PropsWithChildren) {
@@ -78,6 +87,7 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
   const [systemMessage, setSystemMessage] = useState<SystemMessage>(defaultContext.systemMessage);
   const [config, setConfig] = useState<OpenAIConfig>(defaultConfig);
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [presets, setPresets] = useState<IPreset[]>([]);
   const [tokenUsage, setTokenUsage] = useState<number>(0.0);
   const [individualTokenUsage, setIndividualTokenUsage] = useState<TokenUsage[]>([]);
   const [models, setModels] = useState<OpenAIModel[]>([]);
@@ -111,6 +121,11 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
       setTokenUsage(Number(localStorage.tokenUsage));
     } else {
       localStorage.setItem('tokenUsage', '0.0');
+    }
+    if (localStorage.presets) {
+      setPresets(JSON.parse(localStorage.presets));
+    } else {
+      localStorage.setItem('presets', JSON.stringify([]));
     }
   };
 
@@ -209,6 +224,33 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
     [individualTokenUsage],
   );
 
+  const savePreset = useCallback(
+    (name: string, description?: string) => {
+      setPresets((prev) => {
+        const updatedPresets = [
+          ...prev,
+          {
+            systemMessage: systemMessage.content,
+            config: config,
+            name,
+            createdOn: new Date(),
+            description,
+          },
+        ];
+
+        localStorage.setItem('presets', JSON.stringify(updatedPresets));
+
+        return updatedPresets;
+      });
+    },
+    [config, systemMessage.content],
+  );
+
+  const applyPreset = useCallback((preset: IPreset) => {
+    setConfig(preset.config);
+    setSystemMessage((prev) => ({ ...prev, content: preset.systemMessage }));
+  }, []);
+
   const submit = useCallback(async () => {
     if (loading) return;
     setLoading(true);
@@ -253,11 +295,34 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
 
       updateTokenUsage(currentConfig.model, resp.data.usage);
     } catch (error: any) {
-      console.log(error.message);
+      toast.error(error.message, {
+        position: 'bottom-center',
+      });
     }
 
     setLoading(false);
   }, [loading, config, token, systemMessage, messages, updateTokenUsage]);
+
+  const exportMessages = useCallback(() => {
+    const exportJson = {
+      messages: [systemMessage, ...messages].map((message) => ({
+        content: message.content,
+        role: message.role,
+      })),
+    };
+
+    let json = JSON.stringify(exportJson);
+
+    let blob = new Blob([json], { type: 'application/json' });
+
+    let url = URL.createObjectURL(blob);
+    let link = document.createElement('a');
+    link.href = url;
+
+    link.download = 'messages.json';
+
+    link.click();
+  }, [messages, systemMessage]);
 
   const addMessage = useCallback((content: string = '', role: 'user' | 'assistant' = 'user') => {
     setMessages((prev) => {
@@ -290,6 +355,10 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
       submit,
       individualTokenUsage,
       tokenUsage,
+      presets,
+      savePreset,
+      applyPreset,
+      exportMessages,
     }),
     [
       systemMessage,
@@ -301,6 +370,10 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
       submit,
       individualTokenUsage,
       tokenUsage,
+      presets,
+      savePreset,
+      applyPreset,
+      exportMessages,
     ],
   );
 

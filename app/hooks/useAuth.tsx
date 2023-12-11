@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useContext, createContext, ReactNode } from 'react';
+import { toast } from 'react-hot-toast';
 
 const defaultContext = {
   token: '',
@@ -25,6 +26,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const addToken = (token: string) => {
     setToken(token);
     sessionStorage.setItem('open-ai-token', token);
+
+    toast.success(`Token added successfully`);
   };
 
   const clearToken = () => {

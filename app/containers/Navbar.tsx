@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { useAuth } from '@/app/hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 import { useTheme } from 'next-themes';
 import Button from '../components/input/Button';
+import { SearchModal } from '../components/Modals/SearchModal';
 import { AddTokenModal } from '../components/Modals/AddTokenModal';
 
 const Navbar = () => {
   const { token } = useAuth();
   const [isAddTokenModalOpen, setIsAddTokenModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
   return (
@@ -34,6 +36,12 @@ const Navbar = () => {
         </div>
         <div className="flex gap-4 ">
           <Button
+            className="bg-transparent border-gray-400 focus:border-gray-500"
+            onClick={() => setIsSearchModalOpen((prev) => !prev)}
+          >
+            Search your presets
+          </Button>
+          <Button
             className="bg-green-500 text-white"
             onClick={() => setIsAddTokenModalOpen(!isAddTokenModalOpen)}
           >
@@ -44,6 +52,10 @@ const Navbar = () => {
       <AddTokenModal
         isOpen={isAddTokenModalOpen}
         setIsOpen={() => setIsAddTokenModalOpen(!isAddTokenModalOpen)}
+      />
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        setIsOpen={() => setIsSearchModalOpen(!isSearchModalOpen)}
       />
     </>
   );
