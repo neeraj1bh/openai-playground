@@ -1,5 +1,10 @@
 # OpenAI Playground
 
+### Live Demo
+
+[Click here to see it live](https://openai.nb9t7.com/)
+
+<img alt="OpenAI playground example" src="https://github.com/neeraj1bh/openai-playground/assets/55753068/44143085-4190-4491-bfce-0237c008fa65">
 
 ## Installation and usage
 
