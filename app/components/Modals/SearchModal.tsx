@@ -39,14 +39,14 @@ export const SearchModal = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen:
     <>
       <GenericModal isOpen={isOpen} setIsOpen={setIsOpen} transitionType="bottom-up" overflowHidden>
         <div className="relative inline-block text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900  text-left align-bottom transition-all transform rounded-lg  overflow-hidden max-h-[90vh] h-[80vh]  sm:align-middle  w-[40vw]">
-          <div className="absolute top-5 right-5 cursor-pointer w-5 h-5">
+          <div className="absolute top-5 right-5 text-black cursor-pointer text-2xl w-5 h-5">
             <button onClick={setIsOpen}>
               <X size={20} />
             </button>
           </div>
           <div className="w-full">
             <input
-              className="border-b-2 bg-white dark:bg-slate-900  font-light outline-none text-3xl py-4 px-4 w-full "
+              className="border-b-2 bg-white dark:bg-slate-900  font-normal outline-none text-2xl py-4 px-4 w-full "
               value={input}
               onChange={(e) => {
                 setInput(e.target.value);
