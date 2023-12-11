@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Input } from '../input/Input';
 import Button from '../input/Button';
 import { useAuth } from '@/app/hooks/useAuth';
+import { toast } from 'react-hot-toast';
 
 export const AddTokenModal = ({
   isOpen,
@@ -26,7 +27,7 @@ export const AddTokenModal = ({
       addToken(input);
       setIsOpen();
     } else {
-      console.log('Please add key before submitting');
+      toast.error('Please add key before submitting', { position: 'bottom-center' });
     }
   };
 
