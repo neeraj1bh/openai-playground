@@ -50,3 +50,5 @@ export const OpenAIChatModels: Record<string, OpenAIModel> = {
     maxLimit: 128000,
   },
 };
+
+export const TOAST_DURATION = 4000;
