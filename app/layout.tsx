@@ -2,6 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from './theme-provider';
+import { Toaster } from 'react-hot-toast';
+import { TOAST_DURATION } from './utils/constants';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +21,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <main>{children}</main>
         </ThemeProvider>
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            style: {
+              background: '#141414',
+              color: '#fff',
+            },
+            duration: TOAST_DURATION,
+          }}
+        />
       </body>
     </html>
   );
